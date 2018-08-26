@@ -1,6 +1,6 @@
 ## Adaptive Style Transfer in TensorFlow and TensorLayer
 
-TensorLayer implementation of the ICCV 2017 Paper [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/abs/1703.06868) which supports any styles in one single model.
+This is the TensorLayer implementation of the ICCV 2017 Paper : [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/abs/1703.06868) which supports arbitrary styles in one single model!
 
 ### Usage
 
