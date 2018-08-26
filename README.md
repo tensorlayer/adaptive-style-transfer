@@ -56,4 +56,4 @@ Enjoy!
 
 ### License
 
-- This project for academic use only.
+- This project is for academic use only.
