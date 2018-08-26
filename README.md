@@ -1,8 +1,14 @@
 ## Adaptive Style Transfer in TensorFlow and TensorLayer
 
+TensorLayer implementation of the ICCV 2017 Paper [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/abs/1703.06868) which supports any styles in one single model.
+
 ### Usage
 
-1. TensorLayer implementation of the ICCV 2017 Paper [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/abs/1703.06868) which supports any styles in one single model.
+1. Install TensorFlow and the master of TensorLayer:
+
+```
+pip install git+https://github.com/tensorlayer/tensorlayer.git
+```
 
 2. You can use the  <b>train.py</b> script to train your own model. To train the model, you need to download [MSCOCO dataset](http://cocodataset.org/#download) and [Wikiart dataset](https://www.kaggle.com/c/painter-by-numbers), and put the dataset images under the <b>'dataset/COCO\_train\_2014'</b> folder and <b>'dataset/wiki\_all\_images'</b> folder.
 
