@@ -1,7 +1,7 @@
 ## Adaptive Style Transfer in TensorFlow and TensorLayer
 
 Before ["Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization"](https://arxiv.org/abs/1703.06868),
-there were two main approaches for style transfer. First, give one content image and one style image, we randomly initialize a noise image and update it to get the output image. The drawback of this apporach is slow, it usually takes 3 mins to get one image.
+there were two main approaches for style transfer. First, given one content image and one style image, we randomly initialize a noise image and update it to get the output image. The drawback of this apporach is slow, it usually takes 3 mins to get one image.
 After that, academic proposed to train one model for one specific style, which input one image to network, and output one image. This approach is far more faster than the previous approach, and achieved real-time style transfer.
 
 However, one model for one style still not good enough for production. If a mobile APP want to support 100 styles offline, it is impossible to store 100 models in the cell phone. Adaptive style transfer which in turn supports arbitrary styles in one single model !!! We don't need to train new model for new style. Just simply input one content image and one style image you want !!!
