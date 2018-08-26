@@ -2,6 +2,9 @@
 
 This is the TensorLayer implementation of the ICCV 2017 Paper : [Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization](https://arxiv.org/abs/1703.06868) which supports arbitrary styles in one single model!
 
+⚠️ ⚠️ This repo will be moved into example folder of [tensorlayer](https://github.com/zsdonghao/tensorlayer) for life-cycle management soon. More cool Computer Vision applications such as pose estimation and style transfer can be found in this [organization](https://github.com/tensorlayer).
+
+
 ### Usage
 
 1. Install TensorFlow and the master of TensorLayer:
