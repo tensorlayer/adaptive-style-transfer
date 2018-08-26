@@ -58,7 +58,7 @@ Here are some result images (Left to Right: Content , Style , Result):
    <img src="./images/output/udnie_lance.jpg" width=250 height=250>
 </div>
 
-Enjoy!
+Enjoy !!!
 
 ### License
 
