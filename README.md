@@ -46,7 +46,6 @@ Here are some result images (Left to Right: Content , Style , Result):
    <img src="./images/output/cat_chicago.jpg" width=250 height=250>
 </div>
 
-
 <div align="center">
    <img src="./images/content/lance.jpg" width=250 height=250>
    <img src="./images/style/lion.jpg" width=250 height=250>
