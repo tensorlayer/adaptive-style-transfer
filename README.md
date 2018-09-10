@@ -50,6 +50,7 @@ Here are some result images (Left to Right: Content , Style , Result):
    <img src="./images/style/lion.jpg" width=250 height=250>
    <img src="./images/output/lion_lance.jpg" width=250 height=250>
 </div>
+
 <div align="center">
    <img src="./images/content/content_4.png" width=250 height=250>
    <img src="./images/style/style_6.png" width=250 height=250>
