@@ -33,7 +33,6 @@ Here are some result images (Left to Right: Content , Style , Result):
    <img src="./images/output/style_5_content_1.jpg" width=250 height=250>
 </div>
 
-
 <div align="center">
    <img src="./images/content/content_2.png" width=250 height=250>
    <img src="./images/style/style11.png" width=250 height=250>
