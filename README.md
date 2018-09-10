@@ -47,7 +47,6 @@ Here are some result images (Left to Right: Content , Style , Result):
 </div>
 
 
-
 <div align="center">
    <img src="./images/content/lance.jpg" width=250 height=250>
    <img src="./images/style/lion.jpg" width=250 height=250>
