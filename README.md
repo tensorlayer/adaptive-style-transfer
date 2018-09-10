@@ -15,6 +15,7 @@ However, one model for one style still not good enough for production. If a mobi
 
 ```
 pip install git+https://github.com/tensorlayer/tensorlayer.git
+
 ```
 
 2. You can use the  <b>train.py</b> script to train your own model. To train the model, you need to download [MSCOCO dataset](http://cocodataset.org/#download) and [Wikiart dataset](https://www.kaggle.com/c/painter-by-numbers), and put the dataset images under the <b>'dataset/COCO\_train\_2014'</b> folder and <b>'dataset/wiki\_all\_images'</b> folder.
