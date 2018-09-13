@@ -6,7 +6,7 @@ After that, academic proposed to train one model for one specific style, which i
 
 However, one model for one style still not good enough for production. If a mobile APP want to support 100 styles offline, it is impossible to store 100 models in the cell phone. Adaptive style transfer which in turn supports arbitrary styles in one single model !!! We don't need to train new model for new style. Just simply input one content image and one style image you want !!!
 
-⚠️ ⚠️ This repo will be moved into [TensorLayer](https://github.com/zsdonghao/tensorlayer) (please star) for life-cycle management soon. More cool Computer Vision applications such as pose estimation and style transfer can be found in this [organization](https://github.com/tensorlayer).
+⚠️ ⚠️ ** This repo will be moved into [here](https://github.com/tensorlayer/tensorlayer/tree/master/examples) (please star) for life-cycle management soon. More cool Computer Vision applications such as pose estimation and style transfer can be found in this [organization](https://github.com/tensorlayer).**
 
 
 ### Usage
