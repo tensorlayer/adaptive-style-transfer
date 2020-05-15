@@ -21,7 +21,9 @@ pip install git+https://github.com/tensorlayer/tensorlayer.git
 2. You can use the  <b>train.py</b> script to train your own model. To train the model, you need to download [MSCOCO dataset](http://cocodataset.org/#download) and [Wikiart dataset](https://www.kaggle.com/c/painter-by-numbers), and put the dataset images under the <b>'dataset/COCO\_train\_2014'</b> folder and <b>'dataset/wiki\_all\_images'</b> folder.
 
 
-3. Alternatively, you can use the <b>test.py</b> script to run my pretrained models. My pretrained models can be downloaded from [here](https://github.com/tensorlayer/pretrained-models/tree/master/models/style_transfer_models_and_examples), and  should be put into the <b>'pretrained_models'</b> folder for testing. 
+3. You can then use the <b>test.py</b> script to run your trained model. Remember to put it into the <b>'pretrained_models'</b> folder and rename it to 'dec_latest_weights.h5'. A pretrained model can be downloaded from [here](https://github.com/tensorlayer/pretrained-models/tree/master/models/style_transfer_models_and_examples), but it is for TensorLayer v1 only.
+
+4. You may compare this TL2 version with its precedent TL1 version branch to learn about how to migrate TL1 samples. There are also plenty of comments in code tagged with 'TL1to2:' for your reference.
 
 
 ### Results
