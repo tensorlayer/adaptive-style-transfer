@@ -112,7 +112,7 @@ if __name__ == '__main__':
             want_to_download_vgg19 = False
             self.enc_net = vgg19(pretrained=want_to_download_vgg19, end_with='conv4_1', name='content_and_style_enc')
             if not want_to_download_vgg19 and osp.exists(VGG19_PARTIAL_WEIGHTS_PATH):
-                self.enc_net.load_weights(VGG19_PARTIAL_WEIGHTS_PATH)
+                self.enc_net.load_weights(VGG19_PARTIAL_WEIGHTS_PATH, in_order=False)
                 tl.logging.info(f"Encoder weights loaded from: {VGG19_PARTIAL_WEIGHTS_PATH}")
             # NOTE: batch_norm=False->True will lower quality of the generated image = may need retrain
             self.dec_net = vgg19_rev(pretrained=False, batch_norm=USE_BATCH_NORM, end_with='conv1_1', input_depth=512, name='stylized_dec')
