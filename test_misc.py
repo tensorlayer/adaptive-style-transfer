@@ -29,7 +29,7 @@ def test_test_arbitrary_sized_inputs():
     tl.logging.set_verbosity(tl.logging.DEBUG)
     enc_net = vgg19(pretrained=True, end_with='conv4_1')
     # NOTE: batch_norm=True will lower quality of the generated image = need retrain
-    dec_net = vgg19_rev(pretrained=False, batch_norm=False, end_with='conv1_1', input_depth=512)
+    dec_net = vgg19_rev(pretrained=False, batch_norm=False, input_depth=512)
     if osp.exists(DEC_LATEST_WEIGHTS_PATH):
         dec_net.load_weights(DEC_LATEST_WEIGHTS_PATH, skip=True)
 

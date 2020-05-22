@@ -115,7 +115,7 @@ if __name__ == '__main__':
                 self.enc_net.load_weights(VGG19_PARTIAL_WEIGHTS_PATH, in_order=False)
                 tl.logging.info(f"Encoder weights loaded from: {VGG19_PARTIAL_WEIGHTS_PATH}")
             # NOTE: batch_norm=False->True will lower quality of the generated image = may need retrain
-            self.dec_net = vgg19_rev(pretrained=False, batch_norm=USE_BATCH_NORM, end_with='conv1_1', input_depth=512, name='stylized_dec')
+            self.dec_net = vgg19_rev(pretrained=False, batch_norm=USE_BATCH_NORM, input_depth=512, name='stylized_dec')
             if osp.exists(DEC_LATEST_WEIGHTS_PATH):
                 self.dec_net.load_weights(DEC_LATEST_WEIGHTS_PATH, skip=True)
                 tl.logging.info(f"Decoder weights loaded from: {DEC_LATEST_WEIGHTS_PATH}")

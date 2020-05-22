@@ -46,6 +46,7 @@ _use_LayerList_before_merge = True
 # Do you forget to pass the keyword argument 'in_channels'? -- tensorlayer\models\core.py", line 623, in __setattr__
 _use_DeConv2d = True
 _use_PadLayer_Reflect = True
+_relu_class = tf.nn.relu  # tf.nn.relu, tf.nn.leaky_relu
 
 __all__ = [
     'VGG',
@@ -199,7 +200,6 @@ class VGG(Model):
     def __init__(self, layer_type, batch_norm=False, end_with='outputs', input_depth=3, name=None):
         super(VGG, self).__init__(name=name)
         self.is_reversed_model = layer_type.endswith('_rev')
-        self.end_with = end_with
 
         config = cfg[mapped_cfg[layer_type]]
         self.layers = make_layers(config, batch_norm, end_with,
@@ -236,8 +236,10 @@ def make_layers(config, batch_norm=False, end_with='outputs', is_reversed=False,
     layer_list = []
     is_end = False
     for layer_group_idx, layer_group in enumerate(config):
+        is_last_group = (layer_group_idx == len(config) - 1)
         if isinstance(layer_group, list):
             for idx, layer in enumerate(layer_group):  # NOTE: here 'layer' means n_filter of the Conv2d layer
+                is_last_layer = is_last_group and (idx == len(layer_group) - 1)
                 layer_name = layer_names[layer_group_idx][idx] if not is_reversed else layer_names_rev[layer_group_idx][idx]
                 n_filter = layer
                 if idx == 0:
@@ -258,7 +260,7 @@ def make_layers(config, batch_norm=False, end_with='outputs', is_reversed=False,
                         Conv2d(
                             n_filter=n_filter, filter_size=(3, 3), strides=(1, 1),
                             padding='VALID' if _use_PadLayer_Reflect else 'SAME',
-                            act=tf.nn.relu if not batch_norm else None,
+                            act=_relu_class if not batch_norm else None,
                             in_channels=in_channels, name=layer_name
                         )
                     )
@@ -268,13 +270,13 @@ def make_layers(config, batch_norm=False, end_with='outputs', is_reversed=False,
                         DeConv2d_before_merge(
                             n_filter=n_filter, filter_size=(3, 3), strides=(1, 1),
                             padding='SAME',
-                            act=tf.nn.relu if not batch_norm else None,
+                            act=_relu_class if not batch_norm and not is_last_layer else None,
                             in_channels=in_channels, name=layer_name
                         )
                     )
-                if batch_norm:
+                if batch_norm and not is_last_layer:
                     # layer_list.append(BatchNorm())
-                    layer_list.append(BatchNorm2d_before_merged(num_features=n_filter, act=tf.nn.relu))
+                    layer_list.append(BatchNorm2d_before_merged(num_features=n_filter, act=_relu_class))
                 if layer_name == end_with:
                     is_end = True
                     break
@@ -289,9 +291,9 @@ def make_layers(config, batch_norm=False, end_with='outputs', is_reversed=False,
             elif layer_group == 'F':
                 layer_list.append(Flatten(name='flatten'))
             elif layer_group == 'fc1':
-                layer_list.append(Dense(n_units=4096, act=tf.nn.relu, in_channels=512 * 7 * 7, name=layer_name))
+                layer_list.append(Dense(n_units=4096, act=_relu_class, in_channels=512 * 7 * 7, name=layer_name))
             elif layer_group == 'fc2':
-                layer_list.append(Dense(n_units=4096, act=tf.nn.relu, in_channels=4096, name=layer_name))
+                layer_list.append(Dense(n_units=4096, act=_relu_class, in_channels=4096, name=layer_name))
             if layer_name == end_with:
                 is_end = True
         if is_end:
