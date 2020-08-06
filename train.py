@@ -68,12 +68,31 @@ def adjust_interrupt_handlers():
 
     win32api.SetConsoleCtrlHandler(handler, 1)
 
+def preload_gpu_devices():
+    import tensorflow as tf
+    gpus = tf.config.experimental.list_physical_devices('GPU')
+    if gpus:
+        # Restrict TensorFlow to only use the first GPU
+        try:
+            tf.config.experimental.set_memory_growth(gpus[0], True)
+            tl.logging.info("Physical GPU Memory Growth is turned ON.")
+            tf.config.experimental.set_visible_devices(gpus[0], 'GPU')
+            logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+            tl.logging.info(f"Num of Physical GPUs: {len(gpus)}, Num of Logical GPU: {len(logical_gpus)}")
+        except RuntimeError as e:
+            # Visible devices must be set before GPUs have been initialized
+            tl.logging.error(f"Exception during preload_gpu_devices: {e}")
+    else:
+        tl.logging.warning("No physical GPU available.")
+
+
 if __name__ == '__main__':
 
     tl.logging.set_verbosity(tl.logging.INFO)  # TEMP: DEBUG, INFO
 
-    adjust_interrupt_handlers()  # for handling Ctrl+C interrupt
     start_time = datetime.now()
+    adjust_interrupt_handlers()  # for handling Ctrl+C interrupt
+    preload_gpu_devices()
 
     # IMPROVE: may use generator and tf.data.Dataset.from_generator + map_fn, which supports shuffle, batch etc.
     # Get the path of all valid images
