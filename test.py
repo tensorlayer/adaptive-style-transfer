@@ -19,6 +19,7 @@ import utils
 # TL1to2: self-defined VGG-alike models -> reuse pretrained models\vgg.py
 # ENCODER_WEIGHTS_PATH = 'pretrained_models/pretrained_vgg19_encoder_weights.npz'
 # DECODER_WEIGHTS_PATH = 'pretrained_models/pretrained_vgg19_decoder_weights.npz'
+VGG19_PARTIAL_WEIGHTS_PATH = 'pretrained_models/predefined_vgg19_endwith(conv4_1)_weights.h5'
 DEC_BEST_WEIGHTS_PATH = 'pretrained_models/dec_best_weights.h5'
 
 content_path = 'test_images/content/'
@@ -43,11 +44,14 @@ if __name__ == '__main__':
         def __init__(self, *args, **kwargs):
             super(StyleTransferModel, self).__init__(*args, **kwargs)
             # NOTE: you may use a vgg19 instance for both content encoder and style encoder, just as in train.py
-            self.enc_c_net = vgg19(pretrained=True, end_with='conv4_1', name='content')
-            self.enc_s_net = vgg19(pretrained=True, end_with='conv4_1', name='style')
+            # self.enc_c_net = vgg19(pretrained=True, end_with='conv4_1', name='content')
+            # self.enc_s_net = vgg19(pretrained=True, end_with='conv4_1', name='style')
+            self.enc_net = vgg19(pretrained=False, end_with='conv4_1', name='content_and_style_enc')
+            if os.path.exists(VGG19_PARTIAL_WEIGHTS_PATH):
+                self.enc_net.load_weights(VGG19_PARTIAL_WEIGHTS_PATH, in_order=False)
             self.dec_net = vgg19_rev(pretrained=False, end_with='conv1_1', input_depth=512, name='stylized_dec')
             if os.path.exists(DEC_BEST_WEIGHTS_PATH):
-                self.dec_net.load_weights(DEC_BEST_WEIGHTS_PATH)
+                self.dec_net.load_weights(DEC_BEST_WEIGHTS_PATH, skip=True)
 
         def forward(self, inputs, training=None, alpha=1):
             """
@@ -67,8 +71,8 @@ if __name__ == '__main__':
 
             # encode image
             # we should initial global variables before restore model
-            content_features = self.enc_c_net(content)
-            style_features = self.enc_s_net(style)
+            content_features = self.enc_net(content)
+            style_features = self.enc_net(style)
 
             # pass the encoded images to AdaIN  # IMPROVE: try alpha gradients
             target_features = utils.AdaIN(content_features, style_features, alpha=alpha)
@@ -91,10 +95,10 @@ if __name__ == '__main__':
     image_count = 0
     for s_path in style_image_paths:
         # Load image from path and add one extra dimension to it.
-        style_images = [imread(os.path.join(style_path, s_path), mode='RGB')]
+        style_images = [imread(os.path.join(style_path, s_path), output_mode='RGB')]
 
         for c_path in content_image_paths:
-            content_images = [imread(os.path.join(content_path, c_path), mode='RGB')]
+            content_images = [imread(os.path.join(content_path, c_path), output_mode='RGB')]
 
             # TL1to2: session -> obsolete
             # result = sess.run(generated_img, feed_dict={content_input: content_tensor, style_input: style_tensor})
