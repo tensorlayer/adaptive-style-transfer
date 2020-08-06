@@ -49,6 +49,49 @@ def test_test_arbitrary_sized_inputs():
             paired_name = f"{osp.splitext(test_style_filenames[i])[0]}+{osp.splitext(test_content_filenames[i])[0]}"
             utils.imsave(osp.join(TEMP_IMAGE_PATH, f"temp_{paired_name}_epoch{epoch}.jpg"), generated_images[0].numpy())
 
+def test_test_model_single_call():
+    from vgg import vgg19, vgg19_rev
+    import os.path as osp
+    import tensorlayer as tl
+    VGG19_PARTIAL_WEIGHTS_PATH = 'pretrained_models/predefined_vgg19_endwith(conv4_1)_weights.h5'
+    DEC_BEST_WEIGHTS_PATH = 'pretrained_models/dec_best_weights.h5'
+    CONTENT_DATA_PATH = './test_images/content'
+    STYLE_DATA_PATH = './test_images/style'
+    test_content_filenames = ['(92).jpg']  # brad_pitt_01
+    test_style_filenames = ['cat.jpg']
+    TEST_INPUT_CONSTRAINTED_SIZE = 800
+    TEST_OUTPUT_PATH = './test_images/output'
+
+    tl.logging.set_verbosity(tl.logging.DEBUG)
+    enc_net = vgg19(pretrained=False, end_with='conv4_1')
+    enc_net.load_weights(VGG19_PARTIAL_WEIGHTS_PATH, in_order=False)
+    dec_net = vgg19_rev(pretrained=False, batch_norm=False, input_depth=512)
+    dec_net.load_weights(DEC_BEST_WEIGHTS_PATH, skip=True)
+
+    i = 0  # only test 1 pair of input
+    test_content = utils.imread(osp.join(CONTENT_DATA_PATH, test_content_filenames[i]))
+    test_style = utils.imread(osp.join(STYLE_DATA_PATH, test_style_filenames[i]))
+    # import cv2
+    # test_content = cv2.cvtColor(test_content, cv2.COLOR_BGR2RGB)  # <- moved to utils.imread
+    # test_style = cv2.cvtColor(test_style, cv2.COLOR_BGR2RGB)      # <- moved to utils.imread
+
+    content_features = enc_net(test_content, is_train=False)
+    style_features = enc_net(test_style, is_train=False)
+    target_features = utils.AdaIN(content_features, style_features, alpha=1)
+    del content_features, style_features
+    generated = dec_net(target_features, is_train=False)
+    import tensorflow as tf
+    if isinstance(generated, tf.Tensor):
+        if generated.dtype == tf.float32:
+            generated = tf.cast(generated, tf.uint8)
+        generated = generated[0].numpy()
+    saved_path = f"{osp.splitext(test_style_filenames[i])[0]}+{osp.splitext(test_content_filenames[i])[0]}"
+    saved_path = osp.join(TEST_OUTPUT_PATH, f"{saved_path}.jpg")
+    # generated = cv2.cvtColor(generated, cv2.COLOR_RGB2BGR)  # <- moved to utils.imsave
+    utils.imsave(saved_path, generated)
+    tl.logging.info(f"saved_path = {saved_path}")
+    tl.logging.info(f"generated.shape = {generated.shape}")
+
 def test_vgg19_save_weights():
     from vgg import vgg19
     MODEL_SAVE_PATH = './trained_models/'
