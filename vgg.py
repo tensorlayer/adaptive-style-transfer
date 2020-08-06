@@ -44,7 +44,7 @@ _use_LayerList_before_merge = True
 # Note: _use_DeConv2d will 1.bring Exception..(c.solved. b.happened again=PadLayer)
 # AttributeError: The registered layer `layerlist_before_merge_3` should be built in advance. 
 # Do you forget to pass the keyword argument 'in_channels'? -- tensorlayer\models\core.py", line 623, in __setattr__
-_use_DeConv2d = True
+_use_DeConv2d = True  # False
 _use_PadLayer_Reflect = True
 _relu_class = tf.nn.relu  # tf.nn.relu, tf.nn.leaky_relu
 
@@ -260,7 +260,7 @@ def make_layers(config, batch_norm=False, end_with='outputs', is_reversed=False,
                         Conv2d(
                             n_filter=n_filter, filter_size=(3, 3), strides=(1, 1),
                             padding='VALID' if _use_PadLayer_Reflect else 'SAME',
-                            act=_relu_class if not batch_norm else None,
+                            act=_relu_class if not batch_norm and not is_last_layer else None,
                             in_channels=in_channels, name=layer_name
                         )
                     )
