@@ -7,10 +7,15 @@ from os.path import join
 # Temporary Wrapping
 # from scipy.misc import imread, imresize
 import cv2
-def imread(path, mode='RGB'):
+def imread(path, output_mode='RGB'):
     # return cv2.imread(path, cv2.IMREAD_COLOR)
-    return cv2.imdecode(np.fromfile(path,dtype=np.uint8), cv2.IMREAD_COLOR)
-def imsave(path, image):
+    image = cv2.imdecode(np.fromfile(path, dtype=np.uint8), cv2.IMREAD_COLOR)
+    if output_mode == 'RGB':
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    return image
+def imsave(path, image, input_mode='RGB'):
+    if input_mode == 'RGB':
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     return cv2.imwrite(path, image)
 def imresize(image, dst_size: (list, tuple), interp='nearest'):
     """
@@ -56,7 +61,10 @@ def list_images(directory):
 def get_train_images(paths, resize_len=512, crop_height=256, crop_width=256):
     images = []
     for path in paths:
-        image = imread(path, mode='RGB')
+        try:
+            image = imread(path, output_mode='RGB')
+        except Exception as e:
+            image = None
         if image is None:
             print(f"[WARN] Bypassed unreadable train image: {path}")
             continue
@@ -99,8 +107,8 @@ def single_inputs_generator(paired_filenames, content_path, style_path, constrai
         return imresize(image, [h, w], interp='nearest')
     for content_filename, style_filename in paired_filenames:
         try:
-            content_image = constrained_resize(imread(join(content_path, content_filename), mode='RGB'))
-            style_image = constrained_resize(imread(join(style_path, style_filename), mode='RGB'))
+            content_image = constrained_resize(imread(join(content_path, content_filename), output_mode='RGB'))
+            style_image = constrained_resize(imread(join(style_path, style_filename), output_mode='RGB'))
         except Exception as e:
             print(f'[ERROR] Failed reading test image: {e}')
             continue  # bypass
@@ -133,7 +141,7 @@ def pre_process_dataset(dir_path, shorter_side=512):
     for path in paths:
 
         try:
-            image = imread(path, mode='RGB')
+            image = imread(path, output_mode='RGB')
         except IOError:
             num_delete += 1
             print('Cant read this file, will delete it')
