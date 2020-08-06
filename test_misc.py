@@ -57,7 +57,7 @@ def test_test_model_single_call():
     DEC_BEST_WEIGHTS_PATH = 'pretrained_models/dec_best_weights.h5'
     CONTENT_DATA_PATH = './test_images/content'
     STYLE_DATA_PATH = './test_images/style'
-    test_content_filenames = ['(92).jpg']  # brad_pitt_01
+    test_content_filenames = ['brad_pitt_01.jpg']
     test_style_filenames = ['cat.jpg']
     TEST_INPUT_CONSTRAINTED_SIZE = 800
     TEST_OUTPUT_PATH = './test_images/output'
