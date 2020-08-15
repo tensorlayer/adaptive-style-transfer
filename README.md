@@ -1,5 +1,8 @@
 ## Adaptive Style Transfer in TensorFlow and TensorLayer
 
+> Update:
+> - (15/05/2020) Migrated to TensorLayer2 (backend=TensorFlow 2.x). Original TL1 code can be found [here](https://github.com/tensorlayer/adaptive-style-transfer/tree/tl1).
+
 Before ["Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization"](https://arxiv.org/abs/1703.06868),
 there were two main approaches for style transfer. First, given one content image and one style image, we randomly initialize a noise image and update it to get the output image. The drawback of this apporach is slow, it usually takes 3 mins to get one image.
 After that, academic proposed to train one model for one specific style, which input one image to network, and output one image. This approach is far more faster than the previous approach, and achieved real-time style transfer.
@@ -12,16 +15,15 @@ However, one model for one style still not good enough for production. If a mobi
 ### Usage
 
 1. Install TensorFlow and the master of TensorLayer:
+    ```
+    pip install git+https://github.com/tensorlayer/tensorlayer.git
+    ```
 
-```
-pip install git+https://github.com/tensorlayer/tensorlayer.git
+2. You can use the  <b>train.py</b> script to train your own model. To train the model, you need to download [MSCOCO dataset](http://cocodataset.org/#download) and [Wikiart dataset](https://www.kaggle.com/c/painter-by-numbers), and put the dataset images under the <b>'dataset/content_samples'</b> folder and <b>'dataset/style_samples'</b> folder.
 
-```
+3. You can then use the <b>test.py</b> script to run your trained model. Remember to put it into the <b>'pretrained_models'</b> folder and rename it to 'dec_best_weights.h5'. A pretrained model can be downloaded from [here](https://github.com/tensorlayer/adaptive-style-transfer/tree/tl1to2/pretrained_models), which is for TensorLayer v2 and a decoder using _DeConv2d_ layers.
 
-2. You can use the  <b>train.py</b> script to train your own model. To train the model, you need to download [MSCOCO dataset](http://cocodataset.org/#download) and [Wikiart dataset](https://www.kaggle.com/c/painter-by-numbers), and put the dataset images under the <b>'dataset/COCO\_train\_2014'</b> folder and <b>'dataset/wiki\_all\_images'</b> folder.
-
-
-3. Alternatively, you can use the <b>test.py</b> script to run my pretrained models. My pretrained models can be downloaded from [here](https://github.com/tensorlayer/pretrained-models/tree/master/models/style_transfer_models_and_examples), and  should be put into the <b>'pretrained_models'</b> folder for testing. 
+4. You may compare this TL2 version with its precedent TL1 version branch to learn about how to migrate TL1 samples. There are also plenty of comments in code tagged with 'TL1to2:' for your reference.
 
 
 ### Results
@@ -29,39 +31,21 @@ pip install git+https://github.com/tensorlayer/tensorlayer.git
 Here are some result images (Left to Right: Content , Style , Result):
 
 <div align="center">
-   <img src="./images/content/content_1.png" width=250 height=250>
-   <img src="./images/style/style_5.png" width=250 height=250>
-   <img src="./images/output/style_5_content_1.jpg" width=250 height=250>
+   <img src="./test_images/content/brad_pitt_01.jpg" width=250 height=250>
+   <img src="./test_images/style/cat.jpg" width=250 height=250>
+   <img src="./test_images/output/brad_pitt_01_cat.jpg" width=250 height=250>
 </div>
 
 <div align="center">
-   <img src="./images/content/content_2.png" width=250 height=250>
-   <img src="./images/style/style11.png" width=250 height=250>
-   <img src="./images/output/style_11_content2.png" width=250 height=250>
+   <img src="./test_images/content/000000532397.jpg" width=250 height=250>
+   <img src="./test_images/style/lion.jpg" width=250 height=250>
+   <img src="./test_images/output/000000532397_lion.jpg" width=250 height=250>
 </div>
 
 <div align="center">
-   <img src="./images/content/chicago.jpg" width=250 height=250>
-   <img src="./images/style/cat.jpg" width=250 height=250>
-   <img src="./images/output/cat_chicago.jpg" width=250 height=250>
-</div>
-
-<div align="center">
-   <img src="./images/content/lance.jpg" width=250 height=250>
-   <img src="./images/style/lion.jpg" width=250 height=250>
-   <img src="./images/output/lion_lance.jpg" width=250 height=250>
-</div>
-
-<div align="center">
-   <img src="./images/content/content_4.png" width=250 height=250>
-   <img src="./images/style/style_6.png" width=250 height=250>
-   <img src="./images/output/style_6_content_4.jpg" width=250 height=250>
-</div>
-
-<div align="center">
-   <img src="./images/content/lance.jpg" width=250 height=250>
-   <img src="./images/style/udnie.jpg" width=250 height=250>
-   <img src="./images/output/udnie_lance.jpg" width=250 height=250>
+   <img src="./test_images/content/000000526781.jpg" width=250 height=250>
+   <img src="./test_images/style/216_01.jpg" width=250 height=250>
+   <img src="./test_images/output/000000526781_216_01.jpg" width=250 height=250>
 </div>
 
 Enjoy !
