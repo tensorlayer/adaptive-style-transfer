@@ -2,7 +2,7 @@
 
 > Update:
 > - (15/05/2020) Migrated to TensorLayer2 (backend=TensorFlow 2.x). Original TL1 code can be found [here](https://github.com/tensorlayer/adaptive-style-transfer/tree/tl1).
-
+This repository is implemented with [**TensorLayer2.0+**](https://github.com/tensorlayer/tensorlayer).
 Before ["Arbitrary Style Transfer in Real-time with Adaptive Instance Normalization"](https://arxiv.org/abs/1703.06868),
 there were two main approaches for style transfer. First, given one content image and one style image, we randomly initialize a noise image and update it to get the output image. The drawback of this apporach is slow, it usually takes 3 mins to get one image.
 After that, academic proposed to train one model for one specific style, which input one image to network, and output one image. This approach is far more faster than the previous approach, and achieved real-time style transfer.
